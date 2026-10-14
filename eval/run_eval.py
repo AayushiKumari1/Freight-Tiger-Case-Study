@@ -25,12 +25,10 @@ for l in labels.itertuples():
         fails.append(f"  MISMATCH {l.route} {l.week_of}: expected {l.expected}/{l.expected_note_id or '-'} "
                      f"got {got_verdict}/{got_note or '-'}")
 
-# anything the system flagged that we never labelled = potential false positive to review by hand
 extra = sorted(set(produced) - labelled)
 for k in extra:
     fails.append(f"  UNLABELLED OUTPUT ROW {k} -> {produced[k].flagged}")
 
-# citation audit: every justified row must cite an existing note that applies to the route and says costs rose
 NEG = ("not significantly", "no significant", "without a rate", "returned to normal", "remained stable", "not part of")
 for r in out.itertuples():
     if r.flagged == "No (justified)":
