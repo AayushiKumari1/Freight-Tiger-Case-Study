@@ -1,0 +1,23 @@
+route,week_of,expected,expected_note_id,why
+Delhi-Jaipur,2024-11-11,Yes,,Sharp spike; only Delhi-Jaipur note (N007) is about improved roads in May 2024 - no cause
+Delhi-Jaipur,2024-11-18,Yes,,Same unexplained spike continues
+Ahmedabad-Mumbai,2025-01-20,No (justified),N002,Festival-week surcharge note for this exact route and week
+Chennai-Bangalore,2025-02-24,No (justified),N001,Flood window Feb 24 - Mar 8 covers this week
+Chennai-Bangalore,2025-03-03,No (justified),N001,Week of Mar 3-9 overlaps the flood window (ends Mar 8)
+Chennai-Bangalore,2025-03-10,Yes,,N001 window ended Mar 8; N009 says normal - strict reading leaves it unexplained
+Chennai-Bangalore,2025-03-17,Yes,,N009 dated Mar 17 states conditions returned to normal - no cost reason
+Mumbai-Pune,2025-09-15,Yes,,Only nearby note is N006 (stable demand) - not a reason for a rise
+Mumbai-Pune,2025-10-20,Yes,,N010 says compliance costs absorbed without a rate change
+Mumbai-Pune,2025-11-03,Yes,,Same - no supporting note
+Mumbai-Pune,2025-11-17,Yes,,Same - no supporting note
+Mumbai-Pune,2025-12-01,Yes,,Same - no supporting note
+Mumbai-Pune,2025-12-08,Yes,,Same - no supporting note
+Mumbai-Delhi,2024-07-29,not_flagged,,N005 week: note itself says costs were not significantly affected; data confirms no spike
+Kolkata-Bhubaneswar,2025-06-09,not_flagged,,N008 week: normal movement; data confirms no spike
+Delhi-Jaipur,2024-05-20,not_flagged,,N007 week: improved roads; no spike
+Mumbai-Pune,2025-05-05,not_flagged,,Week of the diesel step (N003): most routes rose together so no peer gap
+Delhi-Chennai,2025-05-12,not_flagged,,No spike on this route (it did not step up in May)
+Chennai-Bangalore,2025-05-12,not_flagged,,Diesel step (5-7%): below both thresholds
+Mumbai-Pune,2025-06-23,not_flagged,,"Borderline week: +6.2% vs own history, below the 7% rule"
+Kolkata-Bhubaneswar,2024-09-09,not_flagged,,Ordinary week in the stable period
+Delhi-Chennai,2025-08-04,not_flagged,,Ordinary week after the diesel step

@@ -1,0 +1,12 @@
+Week-to-week noise in the quiet period (Mar-Oct 2024), % vs own history:
+  std by route: {'Ahmedabad-Mumbai': 2.9, 'Chennai-Bangalore': 2.7, 'Delhi-Chennai': 3.7, 'Delhi-Jaipur': 2.0, 'Kolkata-Bhubaneswar': 3.0, 'Mumbai-Delhi': 2.7, 'Mumbai-Pune': 2.8}
+  max across all routes: 6.6%   | max gap vs peers by route:
+  {'Ahmedabad-Mumbai': 4.3, 'Chennai-Bangalore': 11.7, 'Delhi-Chennai': 10.7, 'Delhi-Jaipur': -3.2, 'Kolkata-Bhubaneswar': 6.3, 'Mumbai-Delhi': 8.0, 'Mumbai-Pune': 16.6}
+
+Route-weeks flagged by the rule (of 728 ):
+ vs_own >=  vs_peers >= 10  vs_peers >= 15  vs_peers >= 20  vs_peers >= 25
+         5              23              17              16               9
+         6              18              14              13               7
+         7              13              13              12               7
+         8               9               9               8               5
+        10               7               7               6               4
