@@ -23,16 +23,16 @@ QUERY_TEMPLATE = "{origin} {destination} higher freight cost increase surcharge 
 @dataclass(frozen=True)
 class Check:
     note: Note
-    status: str   # supports | wrong_route | out_of_scope | no_cost_impact | outside_window | exceeds_magnitude
+    status: str 
     gap_days: int
 
 
 @dataclass(frozen=True)
 class Verdict:
-    flagged: str          # "Yes" or "No (justified)"
-    matched_note_id: str  # "" when unexplained
+    flagged: str        
+    matched_note_id: str 
     reason: str
-    retrieved: tuple      # note ids that were retrieved and verified (for the audit trail)
+    retrieved: tuple     
 
 
 def first_sentence(text: str) -> str:
@@ -86,14 +86,12 @@ def judge(route: str, origin: str, destination: str, week_start: date, pct_vs_ow
     horizon = cfg.note_horizon_weeks * 7
     by_id = {n.note_id: n for n in notes}
 
-    # Stage 1 - metadata filter: right route (or all routes) and close enough in time to matter.
     nearby = {n.note_id for n in notes
               if (n.scope is None or n.scope == route) and gap_days(n, week_start) <= horizon}
     if not nearby:
         return Verdict("Yes", "", "No matching note found for this route or date range. "
                                   "Flagged for review.", ())
 
-    # Stage 2 - rank what is left by similarity to the anomaly; Stage 3 - verify every retrieved note.
     query = QUERY_TEMPLATE.format(origin=origin, destination=destination)
     hits = index.search(query, restrict_to=nearby, k=cfg.top_k)
     score = dict(hits)
@@ -102,7 +100,7 @@ def judge(route: str, origin: str, destination: str, week_start: date, pct_vs_ow
 
     supporting = [c for c in checks if c.status == "supports"]
     if supporting:
-        # prefer route-specific over all-routes, then nearest in time, then highest similarity, then id
+    
         best = sorted(supporting, key=lambda c: (c.note.scope is None, c.gap_days,
                                                  -score[c.note.note_id], c.note.note_id))[0]
         n = best.note
