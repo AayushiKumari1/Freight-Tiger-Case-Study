@@ -14,8 +14,6 @@ import pandas as pd
 
 from .config import Config
 
-# Order matters: a note that says its routes are outside the dataset is out-of-scope even if it
-# also mentions a "new toll"; "no cost impact" cues beat "increase" cues (e.g. "costs were not affected").
 OUT_OF_SCOPE_CUES = ("not part of this dataset", "not in this dataset")
 NO_IMPACT_CUES = (
     "not significantly affected", "no significant", "without a rate change", "no rate change",
@@ -40,11 +38,11 @@ class Note:
     date: date
     applies_to: str
     text: str
-    scope: Optional[str]          # None = all routes, else a route like "Chennai-Bangalore"
+    scope: Optional[str]       
     window_start: date
     window_end: date
-    effect: str                   # cost_increase | no_cost_impact | out_of_scope | unclear
-    max_effect_pct: Optional[float]  # upper end of a stated "5-7%" style range, if any
+    effect: str               
+    max_effect_pct: Optional[float] 
 
 
 def _monday(d: date) -> date:
@@ -56,20 +54,18 @@ def parse_note(row: pd.Series, cfg: Config) -> Note:
     low = text.lower()
     nd = pd.to_datetime(row["date"]).date()
 
-    # --- window ---
     m = _RANGE.search(text)
-    if m:  # explicit "from Feb 24 to Mar 8"
+    if m: 
         sm, sd, em, ed = _MONTHS[m.group(1)], int(m.group(2)), _MONTHS[m.group(3)], int(m.group(4))
         start = date(nd.year, sm, sd)
         end = date(nd.year + (1 if em < sm else 0), em, ed)
-    elif any(c in low for c in ONSET_CUES):  # level shift that persists while it stays visible vs history
+    elif any(c in low for c in ONSET_CUES):
         start = _monday(nd)
         end = start + timedelta(weeks=cfg.persistent_note_weeks) - timedelta(days=1)
-    else:  # point-in-time note: the Monday-Sunday week it is dated in
+    else:  
         start = _monday(nd)
         end = start + timedelta(days=6)
 
-    # --- effect ---
     if any(c in low for c in OUT_OF_SCOPE_CUES):
         effect = "out_of_scope"
     elif any(c in low for c in NO_IMPACT_CUES):
@@ -77,7 +73,7 @@ def parse_note(row: pd.Series, cfg: Config) -> Note:
     elif any(c in low for c in INCREASE_CUES):
         effect = "cost_increase"
     else:
-        effect = "unclear"  # never treated as a justification
+        effect = "unclear"  
 
     pct = _PCT.search(text)
     applies_to = str(row["applies_to"]).strip()
