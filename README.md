@@ -57,17 +57,3 @@ powershell -ExecutionPolicy Bypass -File scripts/repro_check.ps1
 Three runs produced identical output files and run logs.
 
 The solution uses deterministic Python rules and TF-IDF retrieval, with **zero LLM calls and $0 model cost**. See `COST_LOG.md` for details.
-
-## Project Structure
-
-- `freight_watch/` — Core pipeline and detection logic
-- `tests/` — Automated tests
-- `eval/` — Labelled evaluation
-- `scripts/` — Reproducibility and sensitivity checks
-- `data/` — Input data
-- `outputs/` — Generated results
-- `COST_LOG.md` — Token and cost accounting
-
-## Limitations
-
-Thresholds are configurable heuristics. Small peer groups, gradual cost changes, and ambiguous context notes can affect detection. The system conservatively leaves increases unexplained when the supplied notes do not justify them.
