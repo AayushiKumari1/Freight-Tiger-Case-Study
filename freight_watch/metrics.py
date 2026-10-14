@@ -23,7 +23,7 @@ def load_shipments(path: str) -> pd.DataFrame:
     df["shipment_date"] = pd.to_datetime(df["shipment_date"])
 
     bad = (df["quantity_tonnes"] <= 0) | (df["distance_km"] <= 0) | (df["freight_cost_inr"] < 0)
-    if bad.any():  # cost per tonne-km is undefined for these; drop loudly rather than silently
+    if bad.any():
         print(f"[warn] dropping {int(bad.sum())} rows with non-positive quantity/distance or negative cost")
         df = df[~bad].copy()
 
@@ -31,7 +31,6 @@ def load_shipments(path: str) -> pd.DataFrame:
     if (types_per_route > 1).any():
         raise ValueError(f"routes with more than one route_type: {list(types_per_route[types_per_route > 1].index)}")
 
-    # Weeks run Monday..Sunday; week_of is that week's Monday.
     df["week_of"] = df["shipment_date"] - pd.to_timedelta(df["shipment_date"].dt.weekday, unit="D")
     return df
 
@@ -59,7 +58,7 @@ def add_baselines(weekly: pd.DataFrame, history_weeks: int = 8) -> pd.DataFrame:
     wide = wide.reindex(pd.date_range(wide.index.min(), wide.index.max(), freq="7D"))
     wide.index.name = "week_of"
 
-    prior = wide.shift(1)  # shift first => the current week can never leak into its own baseline
+    prior = wide.shift(1)
     own_avg = prior.rolling(history_weeks, min_periods=1).mean()
     own_weeks = prior.notna().astype(int).rolling(history_weeks, min_periods=1).sum()
 
